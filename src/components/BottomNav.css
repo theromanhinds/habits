@@ -1,0 +1,68 @@
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(180deg, rgba(23,24,26,0.96), rgba(15,16,19,0.98));
+  border-top: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -6px 18px var(--elev);
+  z-index: 1000;
+  padding: 6px 8px;
+}
+
+.nav-item {
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 10px;
+}
+
+.nav-item svg {
+  display: block;
+  fill: currentColor;
+  width: 22px;
+  height: 22px;
+}
+
+.nav-item.active {
+  color: var(--accent);
+  background: rgba(90,160,255,0.06);
+}
+
+.app-container {
+  padding-bottom: 72px; /* reserve space for bottom nav */
+  min-height: 100vh;
+}
+
+.app-content {
+  padding-bottom: 12px;
+}
+
+/* Hide the label on narrow/mobile view while keeping it available to screen readers */
+@media (max-width: 640px) {
+  .nav-label {
+    display: none;
+  }
+  .nav-item {
+    padding: 10px 14px;
+  }
+}
+
+/* Keep labels visible on larger screens */
+@media (min-width: 641px) {
+  .nav-label {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1;
+  }
+}

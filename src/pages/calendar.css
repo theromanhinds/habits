@@ -1,0 +1,108 @@
+.page.calendar { padding-top: 0; }
+
+.calendar-controls { display:flex; gap:8px; padding: 14px 20px; align-items: center; justify-content: space-between }
+.calendar-controls .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.06); color: var(--fg); }
+.calendar-controls .btn-primary { background: #2563eb; color: #fff; border-color: rgba(37,99,235,0.9) }
+.calendar-controls .btn-outline.btn-primary { background: #2563eb; color: #fff; border-color: rgba(37,99,235,0.9) }
+
+.calendar-controls > div:last-child { display:flex; align-items:center; gap:8px }
+.calendar-controls .muted { color: var(--muted); font-size: 13px }
+
+.weeks-root { display:flex; flex-direction:column; gap: 16px; padding: 0 20px 12px 20px }
+.week-card {
+	background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0));
+	border: 1px solid rgba(255,255,255,0.03);
+	border-radius: 12px;
+	padding: 12px;
+}
+.week-header { font-weight: 400; font-size: 14px; margin-bottom: 8px; color: #b4b4b4; }
+.week-body { display:flex; flex-direction:column; gap:10px }
+.week-row { display:flex; align-items:center; justify-content:space-between; gap:12px }
+.week-habit-name { flex: 1 1 40%; font-weight:600; font-size: 16px; }
+.week-days { display:flex; gap:8px; flex: 1 1 60%; justify-content:flex-end }
+.squircle { width: 36px; height: 36px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.02); cursor:pointer; box-sizing: border-box }
+.squircle.done { background: linear-gradient(90deg, rgba(90,200,120,0.22), rgba(90,200,120,0.12)); border-color: rgba(90,200,120,0.18) }
+.squircle.failed { background: linear-gradient(90deg, rgba(255,90,90,0.12), rgba(255,90,90,0.06)); border-color: rgba(255,90,90,0.12) }
+
+.squircle:hover { transform: translateY(-1px) }
+
+/* Multi (morning/evening) squircle: two halves */
+.squircle.multi { position: relative; display: inline-flex; padding: 0; border-radius: 10px; overflow: hidden; box-sizing: border-box; width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.02); }
+.squircle.multi .half { width: 50%; height: 100%; border: none; background: transparent; padding: 0; margin: 0; cursor: pointer; display: inline-block }
+.squircle.multi .half.done { background: linear-gradient(90deg, rgba(90,200,120,0.38), rgba(90,200,120,0.18)); }
+.squircle.multi .half.failed { background: linear-gradient(90deg, rgba(255,90,90,0.22), rgba(255,90,90,0.08)); }
+
+/* visual separator between halves without affecting total width */
+.squircle.multi::after { content: ''; position: absolute; top: 6%; bottom: 6%; left: 50%; width: 1px; background: rgba(255,255,255,0.03); transform: translateX(-0.5px); pointer-events: none }
+
+/* Focus styles for accessibility */
+.squircle.multi .half:focus { outline: 2px solid rgba(255,255,255,0.06); }
+
+
+.months-root { display:flex; flex-direction:column; gap: 18px; padding: 12px 20px; position: relative }
+.month-card { background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0)); border:1px solid rgba(255,255,255,0.03); border-radius:12px; padding:12px }
+.month-header { font-weight:700; margin-bottom:8px }
+.month-body { display:flex; flex-direction:column; gap:10px }
+.day-row { display:flex; gap:12px; align-items:center }
+.day-label { width: 180px; color: var(--muted) }
+.day-habits { display:flex; gap:10px; flex-wrap:wrap }
+.habit-item { display:flex; gap:8px; align-items:center }
+.habit-item .habit-name { font-size: 13px; max-width: 160px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+
+/* Month grid: columns per habit, header rotated diagonally */
+.month-grid { overflow-x: hidden; padding-top: 72px; }
+
+/* Overlay shown while month view is under construction */
+.month-overlay {
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0,0,0,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  pointer-events: auto; /* catch all interactions */
+}
+
+@media (max-width: 520px) {
+  .month-overlay { font-size: 14px; padding: 12px; }
+}
+.month-columns { display:flex; gap: 12px; align-items:flex-start; flex-wrap: wrap }
+.habit-col { display:flex; flex-direction:column; align-items:center; min-width: 56px }
+.habit-header {
+  transform: rotate(300deg);
+  transform-origin: left bottom;
+  white-space: nowrap;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: inline-block;
+  max-width: 160px;
+  margin-left: 72px;
+}
+.habit-body { display:flex; flex-direction:column; gap:6px }
+
+/* month-specific smaller squircles so columns fit without horizontal scrolling */
+.month-card .squircle { width: 18px; height: 18px; border-radius: 6px }
+.month-card .squircle.multi { width: 18px; height: 18px; border-radius: 6px; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.02) }
+.month-card .squircle.multi .half { height: 18px }
+.month-card .habit-col { min-width: 44px }
+
+/* Mobile: reduce gaps and sizes so columns fit side-by-side vertically */
+@media (max-width: 520px) {
+  .month-columns { gap: 6px; flex-wrap: nowrap; }
+  .habit-col { min-width: 32px }
+  .month-card .squircle { width: 12px; height: 12px; border-radius: 4px }
+  .habit-header { font-size: 11px; margin-bottom: 16px; margin-left: 72px;}
+  /* slightly smaller top padding on narrow screens to balance space */
+  .month-grid { padding-top: 72px; }
+}
+
+/* disabled state for squircles in calendar views */
+.squircle[disabled], .squircle[aria-disabled="true"] { pointer-events: none; cursor: default; opacity: 0.95 }
+
+

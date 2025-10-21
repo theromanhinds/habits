@@ -1,0 +1,15 @@
+/* Minimal styles for Home tri-state buttons */
+.page.home { padding: 22px; max-width: 920px; margin: 0 auto; }
+.home-date { font-weight: 600; color: var(--muted); margin-bottom: 10px }
+.habit-list { list-style: none; margin: 16px 0; padding: 0; display:flex; flex-direction:column; gap:14px }
+.habit-row { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.0)); border: 1px solid rgba(255,255,255,0.02); }
+.habit-name { font-size: 16px; color: var(--fg); font-weight:600 }
+.controls { display: flex; gap: 10px; }
+.controls.two .tri-btn { width: 40px; height: 40px; border-radius:10px }
+.controls.single .tri-btn { width: 40px; height: 40px; border-radius:10px }
+
+.tri-btn { display:flex; align-items:center; justify-content:center; background: transparent; border: 3px solid rgba(255,255,255,0.14); color: #ffffff; border-radius: 10px; cursor: pointer; }
+.tri-btn .dot { display: none }
+.tri-btn.done { background: rgba(16, 185, 129, 0.48); border-color: rgba(16,185,129,0.72); color: #10B981; }
+.tri-btn.failed { background: rgba(239,68,68,0.43); border-color: rgba(239,68,68,0.72); color: #EF4444; }
+.tri-btn:active { transform: translateY(1px); }

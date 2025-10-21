@@ -1,0 +1,110 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.45);
+  z-index: 2000;
+}
+
+.modal {
+  width: 92%;
+  max-width: 480px;
+  background: linear-gradient(180deg, var(--surface), rgba(23,24,26,0.95));
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  padding: 18px;
+  color: var(--text);
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box; /* include padding in width to avoid overflow */
+  overflow-x: hidden; /* prevent horizontal scrolling */
+}
+
+/* make all modal descendants inherit border-box to avoid width overflow from padding */
+.modal * { box-sizing: inherit; }
+
+.modal-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+/* Larger, easier-to-tap buttons inside modal and clearer spacing */
+.modal .btn {
+  padding: 10px 14px;
+  min-height: 44px;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+/* Responsive: on small screens make the modal a bottom sheet for better reachability */
+@media (max-width: 520px) {
+  .modal-backdrop {
+    align-items: flex-end; /* pin to bottom */
+    overflow-x: hidden; /* ensure viewport doesn't scroll horizontally when sheet is pinned */
+  }
+  .modal {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+    /* add more horizontal padding on mobile so options aren't flush to the edges */
+    padding: 20px 20px;
+    height: 85vh;
+    max-height: 85vh;
+    box-shadow: 0 -8px 30px rgba(0,0,0,0.6);
+    box-sizing: border-box; /* be explicit for mobile */
+  }
+  .modal-title { font-size: 18px }
+  .modal-body { gap: 12px }
+  .modal-actions { gap: 10px }
+  /* ensure wheel columns also have inner padding on small screens */
+  .wheel-col {
+    padding: 10px 8px;
+  }
+
+  /* Make room for the fixed action bar at the bottom of the screen */
+  .modal { padding-bottom: 104px; }
+
+  /* Fixed action bar pinned to bottom for easy thumb access */
+  .modal-actions {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 20px;
+    background: linear-gradient(180deg, rgba(23,24,26,0.98), rgba(23,24,26,0.98));
+    border-top: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 -8px 20px rgba(0,0,0,0.4);
+    z-index: 2200;
+    align-items: center;
+  }
+
+  /* ensure primary action and delete match sizing and spacing */
+  .modal-actions .btn { flex: 1; }
+  .modal-actions-left { display: flex; gap: 12px; }
+  .modal-actions-right { display: flex; gap: 12px; }
+}
+
+.modal-actions-left { display:flex; gap:8px; align-items:center }
+.modal-actions-right { display:flex; gap:8px; align-items:center }

@@ -1,0 +1,17 @@
+.app-header { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(6px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-bottom: 1px solid rgba(255,255,255,0.03); }
+.app-header-inner { max-width: 920px; margin: 0 auto; padding: 14px 20px; display:flex; align-items:center; justify-content: space-between }
+.app-title { font-size: 20px; margin: 0; font-weight: 700; color: var(--fg); }
+.app-header-right { color: var(--muted); font-size: 14px; font-weight: 600 }
+.profile-btn {
+	width: 36px;
+	height: 36px;
+	border-radius: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+	border: 1px solid rgba(255,255,255,0.03);
+	color: var(--text);
+	cursor: pointer;
+}
+.profile-btn:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.18) }

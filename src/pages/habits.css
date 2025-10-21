@@ -1,0 +1,352 @@
+:root {
+  --card: rgba(255,255,255,0.02);
+}
+
+.habits-root {
+  padding: 22px;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.habits-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+.btn {
+  background: transparent;
+  color: var(--text);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn:hover { opacity: 0.95 }
+
+.btn-primary {
+  background: linear-gradient(90deg, rgba(90,160,255,0.18), rgba(90,160,255,0.12));
+  color: var(--accent);
+  border-color: rgba(90,160,255,0.18);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+}
+
+.btn-icon {
+  padding: 8px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+.btn-icon:hover { background: rgba(255,255,255,0.03) }
+
+.btn-danger { background: linear-gradient(90deg, rgba(255,90,90,0.08), rgba(255,90,90,0.04)); color: #ff7b7b; border: 1px solid rgba(255,90,90,0.06) }
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Floating action button (Add Habit) */
+.fab {
+  position: fixed;
+  right: 18px;
+  bottom: 86px; /* above bottom nav (nav height 64 + some spacing) */
+  width: 56px;
+  height: 56px;
+  /* squircle: large rounded rectangle instead of perfect circle */
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, rgba(90,160,255,0.18), rgba(90,160,255,0.12));
+  
+  color: var(--accent);
+  border: 1px solid rgba(90,160,255,0.18);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  z-index: 1100;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  /* subtle inner highlight to accentuate squircle surface */
+}
+
+.fab:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,0.6); }
+
+.habit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.0));
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.4) inset;
+}
+
+/* sortable specific: include a handle and smooth transitions */
+.habit-row.sortable { position: relative; transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 120ms ease; }
+.habit-row.sortable .drag-handle { width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; margin-right: 12px; border-radius: 10px; cursor: grab; }
+.habit-row.sortable .drag-handle:active { cursor: grabbing }
+.habit-row.sortable.dragging { box-shadow: 0 18px 40px rgba(0,0,0,0.24); transform: translateZ(0) scale(1.01); }
+
+.drag-handle svg { opacity: 0.9; color: var(--muted) }
+
+/* ensure layout items slide smoothly when list changes */
+.habits-list { transition: height 200ms ease; }
+
+
+.habit-main {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+/* ensure the main content expands so the title sits flush left next to the drag handle */
+.habit-main { flex: 1 1 auto; min-width: 0; }
+
+.habit-name { text-align: left; }
+
+.habit-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.habit-flags {
+  display: flex;
+  gap: 8px;
+}
+
+.flag {
+  font-size: 12px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.02);
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.icon-flag {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--muted);
+}
+
+.icon-flag svg { opacity: 0.95 }
+.icon-sun { color: #FFD166 }
+.icon-moon { color: #9AA0A6 }
+
+.habit-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.label { font-size: 16px; color: #b1b1b1; font-weight: 400 }
+.field { display: block; margin-bottom: 6px }
+.field .label { margin-bottom: 6px }
+
+/* prevent children (like .input) from overflowing horizontally */
+.field { min-width: 0 }
+.input {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 100%;
+  font-size: 20px;
+  box-sizing: border-box;
+}
+
+.row { display:flex; gap: 12px }
+
+.checkbox { display:flex; gap:8px; align-items:center }
+
+/* switch */
+.switch { display:flex; align-items:center; gap:8px }
+.switch-label { color: #b1b1b1; font-size: 16px; font-weight: 400 }
+.switch-input { display:none }
+.switch-slider {
+  width: 48px;
+  height: 26px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  position: relative;
+  transition: background .18s ease;
+}
+.switch-slider::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform .18s ease;
+}
+.switch-input:checked + .switch-slider { background: linear-gradient(90deg, rgba(90,160,255,0.22), rgba(90,160,255,0.12)) }
+.switch-input:checked + .switch-slider::after { transform: translateX(22px); background: var(--accent) }
+
+.muted { color: var(--muted); padding: 12px }
+.modal-actions .muted { padding: 0 8px; align-self: center }
+
+/* date picker (3-column select) */
+.date-picker {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.date-picker select {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+/* Ensure the native dropdown menus and option rows match dark theme */
+.date-picker select,
+.date-picker select option {
+  background-color: rgba(20,22,24,0.95); /* dark surface for dropdown */
+  color: var(--text);
+}
+
+/* On Windows, some dropdowns won't respect option styles; provide a dropdown-like custom appearance for the control itself */
+.date-picker select {
+  box-shadow: none;
+  outline: none;
+}
+.date-picker select:focus {
+  border-color: rgba(90,160,255,0.28);
+  box-shadow: 0 0 0 4px rgba(90,160,255,0.06);
+}
+
+/* For better visibility when options appear, ensure hovered/active option look right */
+.date-picker select option:checked,
+.date-picker select option:hover {
+  background-color: rgba(90,160,255,0.14);
+  color: var(--text);
+}
+
+/* field row: label on left, control (button) on right */
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+/* make the start-date button visually distinct but minimal */
+.start-date-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px;
+  min-width: 120px;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  transition: background .12s ease, border-color .12s ease, color .12s ease;
+  text-align: right;
+}
+.start-date-btn:hover {
+  background: rgba(255,255,255,0.02);
+  border-color: rgba(90,160,255,0.14);
+  color: #fff;
+}
+.start-date-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 5px rgba(90,160,255,0.06);
+  border-color: rgba(90,160,255,0.28);
+}
+.start-date-btn::after {
+  content: '▾';
+  display: inline-block;
+  font-size: 12px;
+  color: var(--muted);
+  transform: translateY(-1px);
+}
+
+.category-select { display:flex; gap:8px; }
+.category-select .swatch { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:6px; vertical-align:middle }
+.category-select .btn { display:inline-flex; align-items:center; gap:6px; padding: 6px 10px }
+
+/* date wheel styles */
+.date-wheel {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+.wheel-col {
+  flex: 1 1 0%;
+  min-width: 0; /* allow flex children to shrink properly */
+  box-sizing: border-box;
+  height: 160px;
+  overflow-y: auto;
+  scroll-snap-type: y proximity;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 8px;
+  padding: 8px 4px;
+}
+
+/* hide scrollbars */
+.wheel-col::-webkit-scrollbar { display: none; }
+.wheel-col { -ms-overflow-style: none; scrollbar-width: none; }
+.wheel-item {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  color: var(--muted);
+  border-radius: 6px;
+  user-select: none;
+}
+.wheel-item.selected {
+  color: var(--text);
+  background: linear-gradient(90deg, rgba(90,160,255,0.12), rgba(90,160,255,0.08));
+  font-weight: 600;
+}
+
+/* center highlight bar to show the chosen row */
+.date-wheel::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 36px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  pointer-events: none;
+}
