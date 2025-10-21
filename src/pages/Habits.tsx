@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Sun, Moon, Edit2, GripVertical } from 'lucide-react';
-import { DndContext, closestCenter, PointerActivationConstraint } from '@dnd-kit/core';
+import { DndContext, closestCenter } from '@dnd-kit/core';
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
   useSortable,
@@ -24,8 +23,7 @@ function hexToRgba(hex: string, alpha = 1) {
 }
 
 export default function Habits() {
-  const { habits, addHabit, removeHabit, toggleMorningEvening, updateHabit, reorderHabit } = useHabits();
-  const { syncNow } = useHabits();
+  const { habits, addHabit, removeHabit, updateHabit, reorderHabit, syncNow } = useHabits();
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [name, setName] = useState('');
@@ -34,7 +32,6 @@ export default function Habits() {
   // start date state as year/month/day for the 3-column picker
   const [showDatePicker, setShowDatePicker] = useState(false);
   const today = new Date();
-  const isoToday = today.toISOString().slice(0, 10);
   const [year, setYear] = useState<number>(today.getFullYear());
   const [month, setMonth] = useState<number>(today.getMonth() + 1); // 1-12
   const [day, setDay] = useState<number>(today.getDate());
@@ -70,8 +67,8 @@ export default function Habits() {
 
   // clamp day when month/year change to avoid invalid date (e.g., Feb 30)
   useEffect(() => {
-    const maxD = daysInMonth(year, month);
-    if (day > maxD) setDay(maxD);
+    // clamp 'day' when month/year change; using functional setState avoids a stale dependency
+    setDay(d => Math.min(d, daysInMonth(year, month)));
   }, [year, month]);
 
   // scroll selected into view when picker opens or values change

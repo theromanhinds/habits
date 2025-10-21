@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { DEFAULT_CATEGORY } from '../constants/categories';
 import { db } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
-import { doc, getDoc, onSnapshot, setDoc, serverTimestamp, updateDoc, deleteField } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp, updateDoc, deleteField } from 'firebase/firestore';
 import { todayLocalIso } from '../utils/dates';
 
 type Habit = {
@@ -145,11 +145,11 @@ export const HabitsProvider: React.FC<{ children?: React.ReactNode }> = ({ child
             try { localStorage.setItem(STORAGE_KEY + '.meta', JSON.stringify({ updatedAt: serverUpdated })); } catch {}
           } else {
             // local is newer: push local to server
-            scheduleWriteToUserDoc(true);
+            scheduleWriteToUserDocRef.current?.(true);
           }
         } else {
           // no server record - create one from local
-          scheduleWriteToUserDoc(true);
+          scheduleWriteToUserDocRef.current?.(true);
         }
       } catch (e) {
         // ignore firestore errors - app still works offline/local
@@ -168,9 +168,11 @@ export const HabitsProvider: React.FC<{ children?: React.ReactNode }> = ({ child
   }, []);
 
   // helper: schedule a debounced write to the current user's doc
-  function scheduleWriteToUserDoc(immediate = false) {
+  // wrapped in useCallback/useRef so it is stable and won't trigger effect lint warnings
+  const scheduleWriteToUserDocRef = useRef<((immediate?: boolean) => void) | null>(null);
+  const scheduleWriteToUserDoc = useCallback((immediate = false) => {
     if (!userRef.current) return;
-      const doWrite = async () => {
+    const doWrite = async () => {
       const u = userRef.current;
       if (!u) return;
       const userDoc = doc(db, 'users', u.uid);
@@ -191,7 +193,8 @@ export const HabitsProvider: React.FC<{ children?: React.ReactNode }> = ({ child
 
     if (writeTimer.current) clearTimeout(writeTimer.current);
     writeTimer.current = setTimeout(() => { void doWrite(); writeTimer.current = null; }, 500);
-  }
+  }, [habits, completions]);
+  scheduleWriteToUserDocRef.current = scheduleWriteToUserDoc;
 
   // public: force an immediate write of current local state to Firestore
   async function syncNow() {

@@ -5,10 +5,6 @@ import Modal from './Modal';
 import { useAuth } from '../context/AuthContext';
 import { User } from 'lucide-react';
 
-function formatDateForHeader(d: Date) {
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
 export default function Header() {
   const { pathname } = useLocation();
   const [profileOpen, setProfileOpen] = useState(false);
